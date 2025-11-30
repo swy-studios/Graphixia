@@ -158,7 +158,6 @@ def average_z_of_face(pts3d):
     return sum(zs) / len(zs)
 
 def drawSolidCube(center_x, center_y, center_z, size):
-    global verticecount, facecount
     s = size / 2
     V = [
         (center_x - s, center_y - s, center_z - s),
@@ -273,6 +272,7 @@ screen.onkeypress(feedback, "f")
 screen.onkeypress(gotoproject, "z")
 
 screen.listen()
+
 
 
 turtle.mainloop()
