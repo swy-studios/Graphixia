@@ -1,11 +1,11 @@
 import turtle
 import math
 import json
+import time
 
 # TURN ON FULLSCREEN
 
-version = "1.0.3"
-
+version = "1.0.4"
 
 currentPID = 1
 
@@ -105,20 +105,20 @@ def drawsquare2D(x1,y1,x2,y2,x3,y3,x4,y4):
     turtle.penup()
 
 # ----------- Camera Movement -----------
-def right(): global camx; camx += 2; update_screen()
-def left(): global camx; camx -= 2; update_screen()
-def up(): global camy; camy += 2; update_screen()
-def down(): global camy; camy -= 2; update_screen()
-def zoom_in(): global camz; camz *= 1.1; update_screen()
-def zoom_out(): global camz; camz /= 1.1; update_screen()
+def right(): global camx; camx += 2
+def left(): global camx; camx -= 2
+def up(): global camy; camy += 2
+def down(): global camy; camy -= 2
+def zoom_in(): global camz; camz *= 1.1
+def zoom_out(): global camz; camz /= 1.1
 
 # ----------- Camera Rotation -----------
-def rot_x_positive(): global camRotationX; camRotationX += 1.25; update_screen()
-def rot_x_negative(): global camRotationX; camRotationX -= 1.25; update_screen()
-def rot_y_positive(): global camRotationY; camRotationY += 1.25; update_screen()
-def rot_y_negative(): global camRotationY; camRotationY -= 1.25; update_screen()
-def rot_z_positive(): global camRotationZ; camRotationZ += 1.25; update_screen()
-def rot_z_negative(): global camRotationZ; camRotationZ -= 1.25; update_screen()
+def rot_x_positive(): global camRotationX; camRotationX += 1.25
+def rot_x_negative(): global camRotationX; camRotationX -= 1.25
+def rot_y_positive(): global camRotationY; camRotationY += 1.25
+def rot_y_negative(): global camRotationY; camRotationY -= 1.25
+def rot_z_positive(): global camRotationZ; camRotationZ += 1.25
+def rot_z_negative(): global camRotationZ; camRotationZ -= 1.25
 
 # ----------- 3D Projection & Solid Cube -----------
 def project3D(x, y, z, dist=600.0):
@@ -188,6 +188,7 @@ def drawSolidCube(center_x, center_y, center_z, size):
         drawFilledFace3D(pts, color)
 
 # ----------- REDRAW -----------
+
 def PID1():
     setposTransform(-300, 0)
     turtle.write("cube (#0001) by swy_studios", False, "center", ("Arial", 10, "bold"))
@@ -207,12 +208,24 @@ def PID2():
     drawSolidCube(0, 0, 0, 200)
     drawSolidCube(300, 0, 0, 50)
 
+def PID3():
+    setposTransform(-300, 0)
+    turtle.write("animate (#0003) by swy_studios", False, "center", ("Arial", 10, "bold"))
+    turtle.goto(0,-screen.window_height() / 4)
+    turtle.write("cam position :" + str(camx) + ", " + str(camy) + ", " + str(camz), False, "center", ("Arial", 10, "bold"))
+    turtle.goto(0,(-screen.window_height() / 4) - 15)
+    turtle.write("cam rotation :" + str(camRotationX) + ", " + str(camRotationY) + ", " + str(camRotationZ), False, "center", ("Arial", 10, "bold"))
+    drawSolidCube(0, 0, 0, 200)
+    drawSolidCube(0, 0, -200, 200)
+
 def update_screen():
     turtle.clear()
     if currentPID == 1:
         PID1()
     elif currentPID == 2:
         PID2()
+    elif currentPID == 3:
+        PID3()
     turtle.update()
     turtle.penup()
 
@@ -254,6 +267,8 @@ def gotoproject():
     global currentPID
     currentPID = input1
 
+
+
 # ----------- KEYBINDS -----------
 screen.onkeypress(right, "d")
 screen.onkeypress(left, "a")
@@ -273,6 +288,6 @@ screen.onkeypress(gotoproject, "z")
 
 screen.listen()
 
-
-
-turtle.mainloop()
+while True:
+    update_screen()
+    time.sleep(0.01)
